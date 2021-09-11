@@ -1,0 +1,397 @@
+/** @Aman Yadav **/
+
+// remember file name must be same as class name.
+// like here class name is MyProject you have to save file as MyProject.java.
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.Timer;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+
+
+public class MyProject extends JPanel implements ActionListener, KeyListener {
+	
+	Timer tm=new Timer(5, this);
+     int x=255, y=540,z=30,w=50, velx=0, vely=0;                                        // for car moment 
+     int iy=0,ively=1;                                                        //for road strip moment
+     int c1y=-20,c1vely=2;                                                    // for cars on opposite direction
+     int c2y=-40,c2vely=2;                                                   // for cars on opposite direction
+    int c3y=-280,c3vely=2;                                                    // for cars on opposite direction
+     int c4y=-240,c4vely=2;
+    int score=0;
+   
+    
+    
+    
+     public MyProject()
+     {
+    	 tm.start();
+    	 
+    	 addKeyListener(this);
+    	 setFocusable(true);
+    	 setFocusTraversalKeysEnabled(false);
+    	
+     }
+     
+     public void paintComponent(Graphics g)
+     {
+    	 super.paintComponent(g); 
+    	 
+    	 Toolkit t=Toolkit.getDefaultToolkit();  
+         Image i=t.getImage("D:\\Apps and Softwares\\MyProject\\bin\\ss.jpg");  
+         g.drawImage(i, 0,0,this); 
+    	 
+    	 g.setColor(Color.white);                                     //score
+    	 g.setFont(new Font("serif",Font.BOLD, 25));                             //mera ho gya
+    	 g.drawString("Score: "+score, 460,40);
+    	 g.setFont(new Font("serif",Font.BOLD, 14));
+    	 g.drawString("Press ALT key to Pause ", 450,80); 
+    	 
+    	 g.setColor(Color.BLACK);                                    //road 
+    	 g.fillRect(100, 0, 340, 720);
+    	 
+    	 
+    	 g.setColor(Color.white);                                //road strip ke liye
+    	 g.fillRect(260, iy-60, 20, 50);
+         g.setColor(Color.white);
+    	 g.fillRect(260, iy+70, 20, 80);
+    	 g.setColor(Color.white);
+    	 g.fillRect(260, iy+220, 20, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(260, iy+360, 20, 70);
+    	 g.setColor(Color.white);
+    	 g.fillRect(260, iy+520, 20, 50);
+    	 
+    	 g.setColor(Color.white);                                // left side road strip ke liye
+    	 g.fillRect(100,0, 10, 50);
+         g.setColor(Color.white);
+    	 g.fillRect(100,70, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(100, 140, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(100, 210, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(100, 280, 10, 50);
+    	 g.setColor(Color.white);                                
+    	 g.fillRect(100,350, 10, 50);
+         g.setColor(Color.white);
+    	 g.fillRect(100,420, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(100, 490, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(100, 560, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(100, 630, 10, 50);
+    	 g.setColor(Color.white);                                //right side road strip ke liye
+    	 g.fillRect(430,0, 10, 50);
+         g.setColor(Color.white);
+    	 g.fillRect(430,70, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(430, 140, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(430, 210, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(430, 280, 10, 50);
+    	 g.setColor(Color.white);                               
+    	 g.fillRect(430,350, 10, 50);
+         g.setColor(Color.white);
+    	 g.fillRect(430,420, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(430, 490, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(430, 560, 10, 50);
+    	 g.setColor(Color.white);
+    	 g.fillRect(430, 630, 10, 50);
+    	 
+   	     g.setColor(Color.RED);     
+   	     g.fillArc(x,y-10,z,20,0,180);    
+   	     g.fillArc(x,y+40,30,20,180,180);                          //my car
+    	 g.fillRect(x, y, z, w);  
+    	  g.setColor(Color.black);
+    	    g.fillArc(x,y+5,z,50,62,60);
+    	    g.setColor(Color.black);
+    	    g.fillArc(x,y-5,z,50,242,55);
+    	  g.setColor(Color.red);                                   //car roof 
+     	 g.fillRect(x, y+20, 30, 15);
+    	 
+    	 g.setColor(Color.BLUE); 
+    	 g.fillArc(340,c1y+20,30,20,180,180);
+    	 g.fillArc(340,c1y-30,30,20,0,180);                        //car1
+    	 g.fillRect(340, c1y-20, 30, 50); 
+    	  g.setColor(Color.white);
+  	    g.fillArc(340,c1y-15,30,50,62,60);
+  	    g.setColor(Color.white);
+  	    g.fillArc(340,c1y-25,30,50,242,55);
+    	 g.setColor(Color.blue);                                    //car roof     
+    	 g.fillRect(340, c1y-5, 30, 20); 
+    	 
+    	 g.setColor(Color.PINK);   
+    	 g.fillArc(290,c2y,30,20,180,180); 
+    	 g.fillArc(290,c2y-50,30,20,0,180);                         //car2
+    	 g.fillRect(290, c2y-40, 30, 50);
+    	  g.setColor(Color.black);
+    	    g.fillArc(290,c2y-35,30,50,62,60);
+    	    g.setColor(Color.black);
+    	    g.fillArc(290,c2y-45,30,50,242,55);
+    	 g.setColor(Color.pink);                                      //car roof 
+    	 g.fillRect(290, c2y-25, 30, 20);
+    	 
+    	 g.setColor(Color.GREEN); 
+    	 g.fillArc(220,c3y-240,30,20,180,180); 
+    	 g.fillArc(220,c3y-290,30,20,0,180);//car3
+    	 g.fillRect(220, c3y-280, 30, 50);
+    	 g.setColor(Color.black);
+ 	    g.fillArc(220,c3y-277,30,50,62,60);                              //275
+ 	    g.setColor(Color.black);
+ 	    g.fillArc(220,c3y-285,30,50,242,55);
+     	 g.setColor(Color.green);                                         //car roof 
+    	 g.fillRect(220, c3y-270, 30, 20);
+    	 
+    	 g.setColor(Color.YELLOW);          
+    	 g.fillArc(160,c4y-200,30,20,180,180); 
+    	 g.fillArc(160,c4y-250,30,20,0,180);//car3//car4
+    	 g.fillRect(160, c4y-240, 30, 50);
+    	 g.setColor(Color.black);
+  	    g.fillArc(160,c4y-237,30,50,62,60);                              //275
+  	    g.setColor(Color.black);
+  	    g.fillArc(160,c4y-245,30,50,242,55);
+    	 g.setColor(Color.yellow);                                          //car roof 
+    	 g.fillRect(160, c4y-230, 30, 20);
+    	
+    	 if(score>5)
+    	 {
+    		 g.setColor(Color.CYAN);        
+    	 g.fillArc(120,c1y+20,30,20,180,180); 
+    	 g.fillArc(120,c1y-30,30,20,0,180);
+    	 g.fillRect(120, c1y-20, 30, 50); 
+    	 g.setColor(Color.black);
+   	    g.fillArc(120,c1y-25,30,50,62,60);                              
+   	    g.setColor(Color.black);
+   	    g.fillArc(120,c1y-25,30,50,242,55);
+    	 g.setColor(Color.cyan);                                        //car roof 
+    	 g.fillRect(120, c1y-15, 30, 30);   
+    	 }
+    	 
+    	 g.setColor(Color.lightGray);      
+    	 g.fillArc(390,c4y-180,30,20,180,180); 
+    	 g.fillArc(390,c4y-250,30,20,0,180);//car
+    	 g.fillRect(390, c4y-240, 30, 70);
+    	 g.setColor(Color.black);
+    	    g.fillArc(390,c4y-235,30,50,62,60);                              
+    	    g.setColor(Color.black);
+    	    g.fillArc(390,c4y-240,30,50,242,55);
+    	 g.setColor(Color.lightGray);                                          //car roof 
+    	 g.fillRect(390, c4y-225, 30, 20);
+    	 
+    	 g.setColor(Color.white);      
+    	 g.fillArc(120,c2y-20,30,20,180,180); 
+    	 g.fillArc(120,c2y-70,30,20,0,180);//car
+    	 g.fillRect(120, c2y-60, 30, 50);
+    	 g.setColor(Color.black);
+    	    g.fillArc(120,c2y-65,30,50,62,60);                              
+    	    g.setColor(Color.black);
+    	    g.fillArc(120,c2y-65,30,50,242,55);
+    	 g.setColor(Color.white);                                      //car roof 
+    	 g.fillRect(120, c2y-55, 30, 30);
+    	
+   
+    
+     }
+     
+     public void actionPerformed(ActionEvent e)
+     {
+    	 
+    	 if(x<120)
+    	 {
+    		 velx=0;
+    		 x=120;
+    	 }
+    	 if(x>390)
+    	 {
+    		 velx=0;
+    		 x=390;
+    	
+    	 }
+    	 if(y<0)
+    	 {
+    		 vely=0;
+    		 y=0;
+    		 
+    	 }
+    	 if(y>600)
+    	 {
+    		 vely=0;
+    		 y=600;
+    	
+    		
+    	 }
+   
+    	 if(iy==130)                                                                           //strip ke liye
+    	 {
+    		 iy=0;
+    		 score++;
+    	 }
+    	 
+    	 if(c1y==600)                                                     // cars ke liye
+    	 {
+    		 c2y=0;
+    		 c3y=0;
+    	 }
+    	 if(c2y==600)
+    	 {
+    		 c1y=0;
+    		 c4y=0;
+    	 }
+    	
+
+    	
+      if(new Rectangle(x,y, z, w).intersects(new Rectangle(340, c1y-20, 30, 50))  ||  new Rectangle(x,y, z, w).intersects(new Rectangle(290, c2y-40, 30, 50)) || new Rectangle(x,y, z, w).intersects(new Rectangle(220, c3y-280, 30, 50)) ||new Rectangle(x,y, z, w).intersects(new Rectangle(160, c4y-240, 30, 50)) ||new Rectangle(x,y, z, w).intersects(new Rectangle(290, c2y-40, 30, 50))||new Rectangle(x,y, z, w).intersects(new Rectangle(120, c1y-20, 30, 50))||new Rectangle(x,y, z, w).intersects(new Rectangle(390, c4y-240, 30, 50))||new Rectangle(x,y, z, w).intersects(new Rectangle(120, c2y-60, 30, 50)) ||new Rectangle(x,y, z, w).intersects(new Rectangle(290, c2y-40, 30, 50)) || new Rectangle(x,y, z, w).intersects(new Rectangle(220, c3y-280, 30, 50)) ||new Rectangle(x,y, z, w).intersects(new Rectangle(160, c4y-240, 30, 50)) ||new Rectangle(x,y, z, w).intersects(new Rectangle(290, c2y-40, 30, 50))||new Rectangle(x,y, z, w).intersects(new Rectangle(120, c1y-20, 30, 50))||new Rectangle(x,y, z, w).intersects(new Rectangle(390, c4y-240, 30, 50)) )
+      {
+    	  JOptionPane.showMessageDialog(this,"Game Over");
+    	 int i = JOptionPane.showConfirmDialog(this,"Do you want to Continue");
+         
+           if(i==0)
+          {
+        	   score=0;
+        	 	 on();
+        
+          }
+           if(i==1)
+           {
+         	  System.exit(0);
+           }
+           else
+           {
+        	   score=0;
+        	     on();
+           }
+    	  
+      }
+      
+      
+      
+                                           
+    		x=x+velx;                                       //velocity  x axis mycar
+    		y=y+vely;	                                    // velocity y axis  mycar
+    		iy=iy+ively;                                     // velocity strip
+    		c1y=c1y+c1vely;                                  // cars ki velocity
+    		c2y=c2y+c2vely;
+    		c3y=c3y+c3vely;
+    		c4y=c4y+c4vely;
+    	repaint();
+     }
+     
+     public void keyPressed(KeyEvent e)
+     {
+    	 
+    	 int c = e.getKeyCode();
+    	 
+    	 if(c==KeyEvent.VK_LEFT)
+    	 {
+    		 velx=-1;
+    		 vely=0;
+    	 }
+    	 if(c==KeyEvent.VK_UP)
+    	 {
+    		 velx=0;
+    		 vely=-1;
+    		
+    	 }
+    	 if(c==KeyEvent.VK_RIGHT)
+    	 {
+    		 velx=1;
+    		 vely=0;
+    	 }
+    	 if(c==KeyEvent.VK_DOWN)
+    	 {
+    		 velx=0;
+    		 vely=1;
+    		
+    	 }
+    	 if(c==KeyEvent.VK_ALT)
+    	 {    
+    		off();
+    		 int j= JOptionPane.showConfirmDialog(this,"Paused. Do you wants to Continue ?");
+    	  if(j==0)
+          {
+    		    on();
+          }
+    	  else if(j==1)
+    	  { 
+    		   off();
+    	  }
+    	  else
+    	  {
+    		off();
+    	  }
+    		 
+    		 
+    		 }
+    	
+    	 
+     }
+     
+     public void keyTyped(KeyEvent e)
+     {
+    	 
+     }
+     
+     public void keyReleased(KeyEvent e) 
+     {
+    	 velx=0;
+    	 vely=0;
+     }
+     
+   void on()
+     {
+
+		  ively=1;
+   	  c1vely=2;
+   	  c2vely=2;
+   	  c3vely=2;
+   	  c4vely=2;
+   	  velx=0; 
+   	  vely=0;
+   	  x=255;
+   	  y=540;
+     }
+     void off()
+     {
+    	 velx=0;
+		 vely=0;
+		 ively=0; 
+		 c1vely=0;
+   	  c2vely=0;
+   	  c3vely=0;
+   	  c4vely=0;
+     }         
+   
+     
+     public static void main(String[] args) 
+     {
+    	 MyProject t = new MyProject();
+    	 JFrame jf = new JFrame();
+    	 jf.setTitle("MY Project");
+    	 jf.setSize(1400, 700);
+    	 jf.setVisible(true);
+    	 jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	 jf.add(t);
+    	 
+    	 
+    	 
+     }
+     
+     
+}
+
